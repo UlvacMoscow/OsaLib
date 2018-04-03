@@ -1,30 +1,57 @@
 import osa
-import os
+
+
 # курс валют http://www.webservicex.net/CurrencyConvertor.asmx?WSDL http://http://fx.currencysystem.com/webservices/CurrencyServer4.asmx?WSDL
 # температура http://www.webservicex.net/ConvertTemperature.asmx?WSDL
 # длина http://www.webservicex.net/length.asmx?WSDL
 
-client = osa.Client('http://www.webservicex.net/ConvertTemperature.asmx?WSDL')
+
+URL = 'http://fx.currencysystem.com/webservices/CurrencyServer4.asmx?WSDL'
+CURRENCY = 'currencies.txt'
 
 
-help(client.services)
-FromUnit = 'degreeFahrenheit'
-ToUnit = 'degreeCelsius'
-Temperature = '67'
+def server_currency_converter(currency, amount, way, url):
+    client = osa.client.Client(url)
+    response = client.service.ConvertToNum(toCurrency='RUB', fromCurrency=currency, amount=amount, rounding=True)
+    print('Путь {} в российских рублях будет стоить = {}'.format(way, round(response, 0)))
+
+
+def server_request(text, url):
+    with open(text, encoding='utf-8') as data:
+        for line in data:
+            part = line.split()
+            server_currency_converter(str(part[2]), float(part[1]), str(part[0]), url)
+
+
+server_request(CURRENCY, URL)
+
+# licenseKey=string&
+# fromCurrency=RUB
+# toCurrency=USD
+# amount=100
+# rounding=True
+# format=string&
+# date=string&
+# type=string HTTP/1.1
+#
+#
+# FromUnit = 'degreeFahrenheit'
+# ToUnit = 'degreeCelsius'
+# Temperature = '67'
 
 # def convert(a,b,c):
 #     return client.services(Temperature = a, FromUnit = b, ToUnit = c )
 
 
-def convert(a,b,c):
-    params = {
-        'Temperature' : a,
-        'FromUnit' : b,
-        'ToUnit' : c
-    }
-    return client.services(params)
+# def convert(a,b,c):
+#     params = {
+#         'Temperature' : a,
+#         'FromUnit' : b,
+#         'ToUnit' : c
+#     }
+#     return client.services(params)
 
-print(convert(Temperature, FromUnit, ToUnit))
+# print(convert(Temperature, FromUnit, ToUnit))
 
 
 
