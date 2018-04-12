@@ -5,7 +5,6 @@ import osa
 # температура http://www.webservicex.net/ConvertTemperature.asmx?WSDL
 # длина http://www.webservicex.net/length.asmx?WSDL
 
-
 URL = 'http://fx.currencysystem.com/webservices/CurrencyServer4.asmx?WSDL'
 CURRENCY = 'currencies.txt'
 COUNTRIES = 'Countries.txt'
